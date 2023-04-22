@@ -1,0 +1,310 @@
+$border-radius: 20px;
+
+$primary: #11d99b;
+$base: #ffff;
+$shadow-color:  #11d99b;
+$lighter-shadow: rgba($shadow-color, .7);
+$white: #fff;
+$gray: #8c8c8c;
+$lighter-gray: rgba($gray, .1);
+$time-line-width: 240px;
+$transition: .3s all ease;
+
+body{
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: $base;
+  display: flex;
+  background: url(./background.svg);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  h1{
+    font-size: 36px;
+    margin-bottom: 0;
+  }
+  .card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 371px;
+    padding: 0 5px;
+    border: 2px solid #11d99b;
+    margin-top: 40px;
+    border-radius: $border-radius;
+    color: $white;
+    font-weight: 100;
+    background: $base;
+    overflow: hidden;
+    background: rgba(18, 18, 18, 1);
+    .current-song{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      padding: 20px 0px;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+    border-bottom: 3px solid #11d99b;
+      color: $base;
+      background: rgba(18, 18, 18, 0.8);
+   
+      audio{
+        display: none;
+      }
+      .img-wrap{
+        position: relative;
+        margin: 0 auto;
+        width: 270px;
+        height: 200px;
+        overflow: hidden;
+        border-radius: 20px;
+        img {
+          width: auto;
+          user-select: none;
+          pointer-events: none;
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+        }
+      }
+      .song-name{
+        margin-top: 30px;
+        font-size: 22px;
+      }
+      .song-autor{
+        color: $primary;
+      }
+      .time{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+        width: $time-line-width;
+      }
+      #timeline{
+        position: relative;
+        margin: 0 auto;
+        width: $time-line-width;
+        height: 5px;
+        background: $primary;
+        border-radius: 5px;
+        cursor: pointer;
+        &:hover{
+          .hover-playhead{
+             opacity: 1;
+            &::before{
+              opacity: 1;
+            }
+            &::after{
+              opacity: 1;
+            }
+          }
+        }
+        #playhead{
+          position: relative;
+          z-index: 2;
+          width: 0;
+          height: 5px;
+          border-radius: 5px;
+          background: $base;
+        }
+        .hover-playhead{
+          position: absolute;
+          z-index: 1;
+          top: 0;
+          width: 0;
+          height: 5px;
+          opacity: 0;
+          border-radius: 5px;
+          background: $shadow-color;
+          transition: opacity .3s;
+          &::before{
+            opacity: 0;
+            content: attr(data-content);
+            display: block;
+            position: absolute;
+            top: -30px;
+            right: -23px;
+            width: 40px;
+            padding: 3px;
+            text-align: center;
+            color: white;
+            background: $shadow-color;
+            border-radius: calc( #{$border-radius} - 12px);
+          }
+          &::after{
+            opacity: 0;
+            content:'';
+            display: block;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            border-top: 8px solid $shadow-color;
+            border-left:8px solid transparent;
+            border-right:8px solid transparent;
+          }
+        }
+      }
+      .play svg {
+        font-size: 40px
+      }
+      .controls{
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        button{
+          color: $base;
+          border-radius: 50%;
+          margin: 15px;
+          font-size: 18px;
+          text-align: center;
+          transition: 0.2s;
+          cursor: pointer;
+          border: none;
+          background: rgba(18, 18, 18, 0.8);
+          &:focus{
+            outline: none;
+          }
+          &.play{
+            width: 50px;
+            height: 50px;
+            &:hover{
+              left: 0;
+            }
+            .fa-play{
+              transform: translateX(2px);
+            }
+          }
+          &.prev-next{
+            width: 35px;
+            height: 35px;
+            &:hover{
+              transform: scale(1.2);
+            }
+          }
+        }
+      }
+    }
+    .play-list{
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      height: 180px;
+      overflow-y: scroll;
+      .track{
+        display: flex;
+        height: 90px;
+        align-items: center;
+        margin-bottom: 10px;
+        border-radius: calc( #{$border-radius} - 10px);
+        border: 1px solid transparent;
+        transition: 0.3s;
+        cursor: pointer;
+        &:hover{
+          background: rgba(18, 18, 18, 1);
+          border-color: $shadow-color;
+          position: relative;
+        }
+        &.current-audio{
+          background: $shadow-color;
+        }
+        &.play-now{
+          background: $shadow-color;
+          position: relative;
+        &:after{
+          content: '';
+          display: block;
+          position: absolute;
+          left:17px;
+          width: 57px;
+          height: 57px;
+          border-radius: calc( #{$border-radius} - 10px);
+          font-size: 16px;
+          animation: play 2s linear infinite;
+        
+        }
+        .track-img{
+          filter: opacity(70%);
+        }
+      }
+    .track-img{
+      height: 88px;
+      object-fit: cover;
+      width: 88px;
+      border-radius: calc( #{$border-radius} - 10px);
+    }
+    
+        .track-discr{
+          margin-left: 15px;
+          display: flex;
+          flex-direction: column;
+          min-width: 190px;
+          .track-name{
+            font-size: 17px;
+            margin-top: 8px;
+          }
+          .track-author{
+            margin-top: 8px;
+            font-weight: 300;
+            color: $primary;
+          }
+        }
+
+        .track-duration{
+          min-width: 40px;
+          margin-left: 10px;
+          margin-right: 10px;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+
+
+.track:hover .track-author {
+  color: #fff;
+}
+
+
+
+.fa-instagram{
+  position: absolute;
+  color: $base;
+  top: 3%;
+  right: 2%;
+  font-size: 38px;
+}
+.fa-instagram:hover{
+  font-size: 42px;
+  color: $white;
+  transition: all .1s linear;
+  cursor: pointer;
+}
+
+.current-audio .track-author {
+  color: #fff;
+}
+
+.play-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.play-list::-webkit-scrollbar-thumb {
+  background: $white; 
+  border-radius: 5px;
+}
+
+.play-list::-webkit-scrollbar-track {
+  background: $base; 
+}
+
+@keyframes play {
+  0%{
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
